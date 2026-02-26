@@ -6,7 +6,7 @@
 ### Swing Leg Control
 공중에 있을때의 다리를 정확한 궤적으로 그리며 날아가도록 관절 모터의 힘.  
 피드백 + 피드 포워드로 구성.  
-$$\tau_i = J_i^\top [K_p(^B p_{i,\text{ref}} - ^B p_i) + K_d(^B v_{i,\text{ref}} - ^B v_i)] + \tau_{i,\text{ff}}$$  
+$$\tau_i = J_i^\top [K_p(_B p_{i,\text{ref}} - _B p_i) + K_d(^B v_{i,\text{ref}} - ^B v_i)] + \tau_{i,\text{ff}}$$  
   
 피드백(대괄호): 목표 위치/속도($\text{ref}$)와 현재 위치/속도의 차이(오차)를 계산, 여기서 $K_p$는 강성, $K_d$는 감쇠력  
 자코비안 ($J_i^\top$): 발끝에서 내야 하는 직선 방향의 힘을 각 관절(고관절, 무릎 등)의 회전력(토크)으로 변환 - 추가 공부  
@@ -151,7 +151,7 @@ J(U) = \|A_{qp}x_0 + B_{qp}U - y\|_L^2 + \|U\|_K^2
 U^\top (B_{qp}^\top L B_{qp} + K) U
 ```
 
-1차항 (U 항):
+1차항 ($U$ 항):
 ```math
 U^\top (2 B_{qp}^\top L (A_{qp}x_0 - y))
 ```
