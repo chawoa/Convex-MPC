@@ -87,19 +87,27 @@ G = \begin{bmatrix} 0 \\ 0 \\ 0 \\ g \end{bmatrix}
 x_{new} = \begin{bmatrix} x_{old} \\ 1 \end{bmatrix}
 ```  
 이때, 상수인 1을 시간에 대해 미분하면 0이 되므로, 좌변의 미분 벡터는 다음과 같이 됩니다.  
-$$\dot{x_{new}} = \begin{bmatrix} \dot{x}_{old} \\ 0 \end{bmatrix}$$  
-행렬 재배치: 중력을 A행렬 안으로 흡수이제 늘어난 상태 벡터($13 \times 1$)에 곱해질 수 있도록, $A_{old}$ 행렬($12 \times 12$)의 크기도 $13 \times 13$으로 키워야 합니다.  
+```math
+\dot{x_{new}} = \begin{bmatrix} \dot{x_{old}} \\ 0 \end{bmatrix}
+```  
+행렬 재배치: 중력을 A행렬 안으로 흡수이제 늘어난 상태 벡터($13 \times 1$)에 곱해질 수 있도록, $$A_{old}$$ 행렬($12 \times 12$)의 크기도 $13 \times 13$으로 키워야 합니다.  
 이때 오른쪽 구석에 중력 벡터 $G$를 끼워 넣습니다.  
-$$A_{new} = \begin{bmatrix} A_{old} & G \\ 0 \cdots 0 & 0 \end{bmatrix}$$  
-$$B_{new} = \begin{bmatrix} B_{old} \\ 0 \cdots 0 \end{bmatrix}$$  
-자, 이제 이 새로운 행렬들로 $\dot{x}_{new} = A_{new}x_{new} + B_{new}u$ 를 계산해 볼까요?  
+```math
+A_{new} = \begin{bmatrix} A_{old} & G \\ 0 \cdots 0 & 0 \end{bmatrix}
+```  
+```math
+B_{new} = \begin{bmatrix} B_{old} \\ 0 \cdots 0 \end{bmatrix}
+```  
+자, 이제 이 새로운 행렬들로 $\dot{x_{new}} = $A_{new}$ $x_{new}$ + $B_{new}$ $u$ 를 계산해 볼까요?  
 행렬의 곱셈 규칙(행 $\times$ 열)을 그대로 따라가면 됩니다.  
-$$\begin{bmatrix} \dot{x}_{old} \\ 0 \end{bmatrix} = \begin{bmatrix} A_{old} & G \\ 0 \cdots 0 & 0 \end{bmatrix} \begin{bmatrix} x_{old} \\ 1 \end{bmatrix} + \begin{bmatrix} B_{old} \\ 0 \cdots 0 \end{bmatrix} u$$  
+```math
+\begin{bmatrix} \dot{x_{old}} \\ 0 \end{bmatrix} = \begin{bmatrix} A_{old} & G \\ 0 \cdots 0 & 0 \end{bmatrix} \begin{bmatrix} x_{old} \\ 1 \end{bmatrix} + \begin{bmatrix} B_{old} \\ 0 \cdots 0 \end{bmatrix} u
+```  
 위 식의 첫 번째 줄(원래 12칸의 영역)만 계산해서 풀어보면 다음과 같이 나옵니다.  
 $A_{old}$ 부분은 $x_{old}$와 곱해집니다. ($A_{old} x_{old}$)오른쪽 끝에 심어둔 $G$는 맨 밑에 추가한 숫자 $1$과 곱해집니다.  
 ($G \times 1 = G$)  
-$$\dot{x}_{old} = A_{old}x_{old} + G \cdot 1 + B_{old}u$$  
-$$\dot{x}_{old} = A_{old}x_{old} + B_{old}u + G$$  
+$$\dot{x_{old}} = A_{old} x_{old} + G \cdot 1 + B_{old} u$$  
+$$\dot{x_{old}} = A_{old} x_{old} + B_{old} u + G$$  
   
 (방정식 17)  
 $$\dot{x}(t) = A_c(\psi)x(t) + B_c(r_1,\ldots,r_n,\psi)u(t)$$  
