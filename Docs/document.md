@@ -83,9 +83,9 @@ G = \begin{bmatrix} 0 \\ 0 \\ 0 \\ g \end{bmatrix}
   
 아래와 같은 과정을 거쳐 17식으로 변형  
 항상 값이 1인 가상의 상태(Dummy State)**를 하나 추가해서 13칸짜리 새로운 상태 벡터 $x_{new}$를 만듭니다.  
-$$x_{new} = \begin{bmatrix} x_{old} \\ 1 \end{bmatrix}$$  
+$x_{new}$ = $\begin{bmatrix} x_{old} \\ 1 \end{bmatrix}$  
 이때, 상수인 1을 시간에 대해 미분하면 0이 되므로, 좌변의 미분 벡터는 다음과 같이 됩니다.  
-$$\dot{x}_{new} = \begin{bmatrix} \dot{x}_{old} \\ 0 \end{bmatrix}$$  
+$$\dot{x_{new}} = \begin{bmatrix} \dot{x}_{old} \\ 0 \end{bmatrix}$$  
 행렬 재배치: 중력을 A행렬 안으로 흡수이제 늘어난 상태 벡터($13 \times 1$)에 곱해질 수 있도록, $A_{old}$ 행렬($12 \times 12$)의 크기도 $13 \times 13$으로 키워야 합니다.  
 이때 오른쪽 구석에 중력 벡터 $G$를 끼워 넣습니다.  
 $$A_{new} = \begin{bmatrix} A_{old} & G \\ 0 \cdots 0 & 0 \end{bmatrix}$$  
