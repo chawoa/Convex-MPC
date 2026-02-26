@@ -98,7 +98,7 @@ A_{new} = \begin{bmatrix} A_{old} & G \\ 0 \cdots 0 & 0 \end{bmatrix}
 ```math
 B_{new} = \begin{bmatrix} B_{old} \\ 0 \cdots 0 \end{bmatrix}
 ```  
-자, 이제 이 새로운 행렬들로 $\dot{x_{new}} = $A_{new}$ $x_{new}$ + $B_{new}$ $u$ 를 계산해 볼까요?  
+자, 이제 이 새로운 행렬들로 $\dot{x_{new}} = A_{new} x_{new} + B_{new} u$ 를 계산해 볼까요?  
 행렬의 곱셈 규칙(행 $\times$ 열)을 그대로 따라가면 됩니다.  
 ```math
 \begin{bmatrix} \dot{x_{old}} \\ 0 \end{bmatrix} = \begin{bmatrix} A_{old} & G \\ 0 \cdots 0 & 0 \end{bmatrix} \begin{bmatrix} x_{old} \\ 1 \end{bmatrix} + \begin{bmatrix} B_{old} \\ 0 \cdots 0 \end{bmatrix} u
