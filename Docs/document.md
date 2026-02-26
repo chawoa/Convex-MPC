@@ -40,11 +40,16 @@ $J_i^\top$ (자코비안): 스윙 페이즈와 마찬가지로, 발끝에서 발
     $\omega$ (각속도): 로봇이 빙글빙글 도는 속도  
     $I\omega$ (각운동량): 회전하는 물체가 가진 힘  
 - 각도 변화: 
-$$
 \dot{R} = [\omega]_\times R
 $$  
-    $R$ (회전 행렬): 로봇이 현재 월드 좌표계(절대 세계)에서 어느 방향으로 비틀어져 있는지를 나타내는 3x3 행렬  
-    $[\omega]_\times$ (외적 행렬, Skew-symmetric matrix): 각속도 벡터 $\omega = [w_x, w_y, w_z]^\top$를 $3 \times 3$ 행렬 모양으로 변환한 행렬  
+
+```math
+\dot{R} = [\omega]_\times R
+```
+
+여기서,
+- **R** (회전 행렬): 로봇이 현재 월드 좌표계(절대 세계)에서 어느 방향으로 비틀어져 있는지를 나타내는 3x3 행렬
+- **[ω]_×** (외적 행렬, Skew-symmetric matrix): 각속도 벡터 ω = [wₓ, w_y, w_z]^T를 3×3 행렬 모양으로 변환한 행렬
   
 ### Approximated Angular Velocity Dynamics
 - 로봇은 심하게 기울어지지 않음 (방정식 8 ~ 12)  
