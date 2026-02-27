@@ -113,10 +113,12 @@ MPC의 핵심은 컴퓨터가 가장 빨리 풀 수 있는 이차 계획법(Stan
     $$J(U) = \|A_{qp}x_0 + B_{qp}U - y\|_L + \|U\|_K$$  
     방정식 28을 전개한 후 정리하면, 방정식 29의 Standard QP (Quadratic Programming) 폼인 $\frac{1}{2} U^\top H U + U^\top g$ 형태가 생성.  
     2차항 ($U^2$ 항):  
-    $$U^\top (B_{qp}^\top L B_{qp} + K) U$$  
+    ```math
+      U^\top (B_{qp}^\top L B_{qp} + K) U
+    ```
     1차항 ($U$ 항):  
     ```math
-    U^\top (2 B_{qp}^\top L (A_{qp}x_0 - y))
+      U^\top (2 B_{qp}^\top L (A_{qp}x_0 - y))
     ```  
     여기서 최적화(미분해서 0이 되는 지점 찾기)를 할 때 상수항은 어차피 사라지므로 버림.  
     아재 다시 방정식 29와 같은 형태로 정리하면, $$\min \frac{1}{2} U^\top H U + U^\top g$$  
