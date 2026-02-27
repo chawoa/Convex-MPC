@@ -58,13 +58,13 @@ $$\tau_i = J_i^\top R_i^\top f_i$$
 행렬 합체 (방정식 16, 17)  
 현재 상태 + 입력으로 인한 상태 변화 + 중력 = 예측된 상태  
 방정식 16을 요약하면 다음과 같은 형태.  
-$\frac{d}{dt} x_{old}$ = $A_{old}$ $x_{old}$ + $B_{old}$ u + G  
+$\frac{d}{dt} x_{old} = A_{old} x_{old} + B u + G$  
 여기서 각 항목의 크기(차원)는 다음과 같습니다.  
 $x_{old}$: 크기가 $12 \times 1$ 인 기존 상태 벡터 (각도, 위치, 속도 등)  
 $A_{old}$: 크기가 $12 \times 12$ 인 시스템 행렬.  
 $G$: 크기가 $12 \times 1$ 인 중력 벡터.  
   
-아래와 같은 과정을 거쳐 17식으로 변형.  
+아래와 같은 과정을 거쳐 방정식 17로 변형.  
 항상 값이 1인 가상의 상태를 하나 추가해서 13차원의 새로운 상태 벡터 $x_{new}$를 생성.  
 ```math
 x_{new} = \begin{bmatrix} x_{old} \\ 1 \end{bmatrix}
@@ -78,9 +78,9 @@ x_{new} = \begin{bmatrix} x_{old} \\ 1 \end{bmatrix}
 A_{new} = \begin{bmatrix} A_{old} & G \\ 0 \cdots 0 & 0 \end{bmatrix}
 ```  
 결과적으로 아래와 같은 식으로 정리  
-$\frac{d}{dt} x_{new} = A_{new} x_{new} + B_{new} u$    
+$\frac{d}{dt} x_{new} = A_{new} x_{new} + B u$    
 ```math
-\frac{d}{dt} x_{new} = \begin{bmatrix} A_{old} & G \\ 0 \cdots 0 & 0 \end{bmatrix} \begin{bmatrix} x_{old} \\ 1 \end{bmatrix} + B_{old} u
+\frac{d}{dt} x_{new} = \begin{bmatrix} A_{old} & G \\ 0 \cdots 0 & 0 \end{bmatrix} \begin{bmatrix} x_{old} \\ 1 \end{bmatrix} + B u
 ```  
   
 $x(t)$ (상태): 로봇의 현재 기울기, 위치, 속도 등 (결과)  
