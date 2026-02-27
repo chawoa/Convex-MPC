@@ -11,7 +11,7 @@
 pz 평균:    0.501 m (목표: 0.5 m)  
 pz 표준편차:0.0001 m  
 
-[사진]  
+<img width="375" height="241" alt="Image" src="https://github.com/user-attachments/assets/588949e4-bdcf-41d2-ad83-48e960482a7b" />  
 
 ### Trot
 #### 기본
