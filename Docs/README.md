@@ -110,20 +110,20 @@ MPC의 핵심은 컴퓨터가 가장 빨리 풀 수 있는 이차 계획법(Stan
     이를 통해 $A_{qp}$ 행렬과 $B_{qp}$ 행렬 생성.  
 - 비용 함수(Cost Function) 정리:  
     목표 궤적과의 오차를 줄이고 에너지($U$) 소모를 최소화하는 식(방정식 28)으로 전개  
-    ```math
-    \J(U) = \|A_{qp}x_0 + B_{qp}U - y\|_L^2 + \|U\|_K^2
-    ```
+```math
+J(U) = \|A_{qp}x_0 + B_{qp}U - y\|_L^2 + \|U\|_K^2
+```
     방정식 28을 전개한 후 정리하면, 방정식 29의 Standard QP (Quadratic Programming) 폼인 $\frac{1}{2} U^\top H U + U^\top g$ 형태가 생성.  
 
     2차항 ($U^2$ 항):
-    ```math
-    \U^\top (B_{qp}^\top L B_{qp} + K) U
-    ```
+```math
+U^\top (B_{qp}^\top L B_{qp} + K) U
+```
 
     1차항 ($U$ 항):
-    ```math
-    \U^\top (2 B_{qp}^\top L (A_{qp}x_0 - y))
-    ```
+```math
+U^\top (2 B_{qp}^\top L (A_{qp}x_0 - y))
+```
     여기서 최적화(미분해서 0이 되는 지점 찾기)를 할 때 상수항은 어차피 사라지므로 버림.  
     아재 다시 방정식 29와 같은 형태로 정리하면, $$\min \frac{1}{2} U^\top H U + U^\top g$$  
     방정식 31 ($H$ 행렬): $2차항 계수 = \frac{1}{2} H \implies \mathbf{H = 2(B_{qp}^\top L B_{qp} + K)}$  
