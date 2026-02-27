@@ -94,11 +94,11 @@ $A_c$, $B_c$ (시스템 행렬): 로봇이 현재 바라보는 방향(Yaw, $\psi
 - 방정식 23, 24 (마찰): X, Y 방향으로 미는 힘($f_x, f_y$)은 누르는 힘($f_z$)에 마찰 계수($\mu$)를 곱한 것보다 작아야 발이 미끄러지지 않음. 이를 컴퓨터가 계산하기 쉽게 원뿔 모양이 아닌 Square pyramid 형태의 선형 부등식으로 단순화.  
   
 ### Reference Trajectory Generation
-$x, y$ 속도와 Yaw(회전)만 명령을 따르며, Roll, Pitch, $Z$ 속도는 무조건 0으로 세팅.  
+원하는 로봇 동작을 바탕으로 레퍼런스 궤적을 구성. 이 구현에서는 레퍼런스 궤적이 단순하여 xy-속도, xy-위치, z 위치, yaw, yaw rate만 포함. 다른 상태들(roll, pitch, roll rate, pitch rate, z-velocity)은 항상 0으로 고정. 
 
-### Linear Discrete Time Dynamics
-연속 -> 이산  
-$A_c, B_c$ -> $\hat{A}, \hat{B}$  
+- 명령으로 들어오는 값들: xy 속도와 yaw rate(운영자에 의해 직접 명령).
+- yaw와 xy-위치는 해당 속도들을 적분(integrate)하여 계산.
+- 레퍼런스 궤적은 동역학 제약과 향후 발 위치 계획에 사용.
   
 ### QP Formulation
 MPC의 핵심은 컴퓨터가 가장 빨리 풀 수 있는 이차 계획법(Standard QP: $\min \frac{1}{2} U^\top H U + U^\top g$) 형태로 문제를 변환하는 것.
