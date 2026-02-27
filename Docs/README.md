@@ -112,7 +112,7 @@ MPC의 핵심은 컴퓨터가 가장 빨리 풀 수 있는 이차 계획법(Stan
     목표 궤적과의 오차를 줄이고 에너지($U$) 소모를 최소화하는 식(방정식 28)으로 전개  
     $$J(U) = \|A_{qp}x_0 + B_{qp}U - y\|_L + \|U\|_K$$  
     방정식 28을 전개한 후 정리하면, 방정식 29의 Standard QP (Quadratic Programming) 폼인 $\frac{1}{2} U^\top H U + U^\top g$ 형태가 생성.  
-    2차항 ($U^2$ 항):  
+    2차항 ($U^2$ 항):  $$U^\top (B_{qp}^\top L B_{qp} + K) U$$
     ```math
       U^\top (B_{qp}^\top L B_{qp} + K) U
     ```
