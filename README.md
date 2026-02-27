@@ -54,3 +54,6 @@ pz 평균:    0.503 m (목표: 0.5 m)
 pz 표준편차:0.0083 m
   
 <img width="1017" height="497" alt="Image" src="https://github.com/user-attachments/assets/2b194140-65b3-4852-abaa-5395ba986a4a" />  
+
+## Demo
+![Image](https://github.com/user-attachments/assets/5bcdf084-9343-477e-a5bf-486f5024cb87)
