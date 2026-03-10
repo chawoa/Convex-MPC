@@ -8,7 +8,7 @@ function [r_feet, p_des] = plan_foot_positions(x, cmd_vel, contact_seq, params)
 %
 % 입력:
 %   x           : 현재 상태 [13x1] Θ, p, ω, v
-%   cmd_vel     : 명령 속도 [vx; vy; yaw_rate] (world frame)
+%   cmd_vel     : 명령 속도 [vx; vy; yaw_rate] (body frame)
 %   contact_seq : 4 x k_horizon contact sequence
 %   params      : 로봇 파라미터 구조체
 %
@@ -17,11 +17,10 @@ function [r_feet, p_des] = plan_foot_positions(x, cmd_vel, contact_seq, params)
 %   p_des  : 발 목표 위치 (3x4), 절대 위치
 
 % 현재 상태 파싱
-roll  = x(1); pitch = x(2); yaw = x(3);
+yaw   = x(3);
 p_com = x(4:6);   % COM 위치
-v_com = x(10:12); % COM 속도
 
-% 회전 행렬 * world frame으로 월드기반 절대 좌표로 변환 가능
+% 회전 행렬 (body → world)
 Rz = [cos(yaw) -sin(yaw) 0;
       sin(yaw)  cos(yaw) 0;
       0         0        1];
