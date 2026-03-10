@@ -24,11 +24,7 @@ quadprog 함수(QP solver)는 Optimization Toolbox 필요.
 - **Continuous dynamics (linearized):** [Implements/get_continuous_dynamics.m](Implements/get_continuous_dynamics.m#L1) : 입력 `psi`(yaw), `r_feet`, `params` → 출력 `Ac` (13×13), `Bc` (13×12). 이 연속행렬들은 MPC에서 상태-입력 선형 모델로 사용.
 - **Discretization (ZOH):** [Implements/discretize_zoh.m](Implements/discretize_zoh.m#L1) : 입력 `Ac`, `Bc`, `dt_mpc` → 출력 `Ad`, `Bd`. `main_mpc`는 horizon 전체에 동일한 `Ad`, `Bd`를 복제(`Ad_list`, `Bd_list`)하여 예측 모델에 사용.
 - **Reference trajectory:** [Implements/generate_reference_trajectory.m](Implements/generate_reference_trajectory.m#L1) : 입력 `x0`, `cmd_vel`, `k_horizon`, `dt_mpc` → 출력 `x_ref` (13·k_horizon × 1). 예측 horizon 동안의 목표 상태(위치·속도·yaw 등)를 생성.
-- **QP construction:** [Implements/build_qp.m](Implements/build_qp.m#L1) : 입력 `Ad_list`, `Bd_list`, `x0`, `x_ref`, `contact_seq`, `Q_weights`, `alpha`, `params`, `k_horizon` → 출력 `H`, `g_vec`, `C_ineq`, `lb`, `ub`, `ub_var`. 여기서 예측 모델과 가중치, 마찰/힘 제약을 모아 표준 QP 형태로 생성.
-- **QP solve & apply:** `main_mpc`에서 `quadprog`로 `H`, `g_vec`, `C_ineq`, `lb`, `ub`, `ub_var`를 풀어 최적 입력 `U_opt`(forces over horizon)을 획득. 그중 첫 12개(`u1`)를 실제로 적용(지면 반력)하고 상태를 `x_{k+1} = Ad*x_k + Bd*u1`로 업데이트.
-추가적으로 제약 사항은 QP construction으로부터 다음과 같이 정리  
-| | b(ub) | lb | ub_var |
-| stance 발 | 행 추가 (마찰 원뿔) | 제약 없음 | 제약 없음 |
-| swing 발 | 행 없음 | 0 | 0 |
+- **QP construction:** [Implements/build_qp.m](Implements/build_qp.m#L1) : 입력 `Ad_list`, `Bd_list`, `x0`, `x_ref`, `contact_seq`, `Q_weights`, `alpha`, `params`, `k_horizon` → 출력 `H`, `g_vec`, `C_ineq`, `lb`, `ub`. 여기서 예측 모델과 가중치, 마찰/힘 제약을 모아 표준 QP 형태로 생성.
+- **QP solve & apply:** `main_mpc`에서 `quadprog`로 `H`, `g_vec`, `C_ineq`, `lb`, `ub`를 풀어 최적 입력 `U_opt`(forces over horizon)을 획득. 그중 첫 12개(`u1`)를 실제로 적용(지면 반력)하고 상태를 `x_{k+1} = Ad*x_k + Bd*u1`로 업데이트.
 
 이 흐름에서 각 모듈의 주요 데이터 전달 경로: `main_mpc` → (`gait_scheduler` → `contact_seq`) → (`plan_foot_positions` → `r_feet`, `p_des`) → (`get_continuous_dynamics` → `Ac,Bc`) → (`discretize_zoh` → `Ad,Bd`) → (`generate_reference_trajectory` → `x_ref`) → (`build_qp` → `H,g,C,lb,ub`) → (`quadprog` → `U_opt`) → 상태 업데이트 및 로그.
