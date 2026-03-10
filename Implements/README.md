@@ -27,7 +27,8 @@ quadprog 함수(QP solver)는 Optimization Toolbox 필요.
 - **QP construction:** [Implements/build_qp.m](Implements/build_qp.m#L1) : 입력 `Ad_list`, `Bd_list`, `x0`, `x_ref`, `contact_seq`, `Q_weights`, `alpha`, `params`, `k_horizon` → 출력 `H`, `g_vec`, `C_ineq`, `lb`, `ub`, `ub_var`. 여기서 예측 모델과 가중치, 마찰/힘 제약을 모아 표준 QP 형태로 생성.
 - **QP solve & apply:** `main_mpc`에서 `quadprog`로 `H`, `g_vec`, `C_ineq`, `lb`, `ub`, `ub_var`를 풀어 최적 입력 `U_opt`(forces over horizon)을 획득. 그중 첫 12개(`u1`)를 실제로 적용(지면 반력)하고 상태를 `x_{k+1} = Ad*x_k + Bd*u1`로 업데이트.  
 추가적으로 제약 사항은 QP construction으로부터 다음과 같이 정리  
-| : | b(ub) | lb | ub_var |
+|  | b(ub) | lb | ub_var |
+| :--- | :--- | :--- |
 | stance 발 | 행 추가 (마찰 원뿔) | 제약 없음 | 제약 없음 |
 | swing 발 | 행 없음 | 0 | 0 |
 
