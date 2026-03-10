@@ -1,4 +1,4 @@
-function [H, g_vec, C_ineq, lb, ub] = build_qp(Ad_list, Bd_list, ...
+function [H, g_vec, C_ineq, lb, ub, ub_var] = build_qp(Ad_list, Bd_list, ...
     x0, x_ref, contact_seq, Q_weights, alpha, params, k_horizon)
 %
 %
@@ -136,7 +136,8 @@ end
 C_ineq = C_ineq(1:row_c-1, :);
 ub     = ub(1:row_c-1);
 
-% quadprog의 lb (변수 하한)
-lb = lb_u;
+% quadprog의 변수 하한/상한
+lb     = lb_u;
+ub_var = ub_u;
 
 end
