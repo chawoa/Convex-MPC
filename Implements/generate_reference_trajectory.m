@@ -4,12 +4,14 @@ function x_ref = generate_reference_trajectory(x0, cmd_vel, k_horizon, dt_mpc)
 %
 % 입력:
 %   x0        : 현재 상태 [13x1]
-%   cmd_vel   : 명령 속도 [vx_cmd; vy_cmd; yaw_rate_cmd]
+%   cmd_vel   : 명령 속도 [vx_cmd; vy_cmd; yaw_rate_cmd] - body frame
 %   k_horizon : prediction horizon 길이
 %   dt_mpc    : MPC timestep (sec)
 %
 % 출력:
 %   x_ref : 13*k_horizon x 1 참조 궤적 벡터
+%
+% cmd_vel은 body frame 기준이므로 각 step의 예측 yaw로 world frame으로 변환
 
 % 명령 속도 파싱
 vx_cmd       = cmd_vel(1);
@@ -35,10 +37,14 @@ for k = 1:k_horizon
     % 이산적으로 처리를 했기 때문에 적분을 하게 되면 아래와 같이 구현 가능
     yaw_k = yaw_k + yaw_rate_cmd * dt_mpc;
 
-    % xy 위치 적분 (world frame)
-    % 이산적으로 처리를 했기 때문에 적분을 하게 되면 아래와 같이 구현 가능
-    px_k = px_k + vx_cmd * dt_mpc;
-    py_k = py_k + vy_cmd * dt_mpc;
+    % body frame → world frame 속도 변환
+    Rz_k = [cos(yaw_k), -sin(yaw_k);
+            sin(yaw_k),  cos(yaw_k)];
+    v_world = Rz_k * [vx_cmd; vy_cmd];  % world frame 속도
+
+    % xy 위치 적분 (world frame 속도로 적분)
+    px_k = px_k + v_world(1) * dt_mpc;
+    py_k = py_k + v_world(2) * dt_mpc;
 
     % 참조 상태 벡터 구성 (13개 요소)
     % [roll, pitch, yaw, px, py, pz, wx, wy, wz, vx, vy, vz, g]
@@ -52,8 +58,8 @@ for k = 1:k_horizon
     x_k(7) = 0;           % roll rate = 0
     x_k(8) = 0;           % pitch rate = 0
     x_k(9) = yaw_rate_cmd; % yaw rate 추적
-    x_k(10) = vx_cmd;     % vx 추적
-    x_k(11) = vy_cmd;     % vy 추적
+    x_k(10) = v_world(1);     % vx 추적
+    x_k(11) = v_world(2);     % vy 추적
     x_k(12) = 0;          % vz = 0
     x_k(13) = -9.8;       % gravity
 
