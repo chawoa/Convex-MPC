@@ -11,6 +11,7 @@
 최대 |pitch|:0.00 deg
 pz 평균:    0.501 m (목표: 0.5 m)
 pz 표준편차:0.0001 m
+<img width="345" height="232" alt="Image" src="https://github.com/user-attachments/assets/6078f5fe-d55b-4d3b-b075-91d721caa192" />
 
 #### 외란 시나리오
 ═══ 성능 지표 ═══
@@ -19,7 +20,7 @@ pz 표준편차:0.0001 m
 최대 |pitch|:0.00 deg
 pz 평균:    0.503 m (목표: 0.5 m)
 pz 표준편차:0.0105 m
-
+<img width="338" height="231" alt="Image" src="https://github.com/user-attachments/assets/151da9f5-c6c5-4ac2-bff9-943fb55d4df9" />
 
 ### Trot
 #### 기본
@@ -29,8 +30,7 @@ pz 표준편차:0.0105 m
 최대 |pitch|:6.69 deg
 pz 평균:    0.505 m (목표: 0.5 m)
 pz 표준편차:0.0021 m
-  
-<img width="1020" height="500" alt="Image" src="https://github.com/user-attachments/assets/1785940a-dfb6-45fa-a581-6d940844e91d" />
+<img width="1027" height="498" alt="Image" src="https://github.com/user-attachments/assets/fbf421fe-b95b-4131-993f-ea2619ce9d00" />  
 
 #### 외란 시나리오
 ═══ 성능 지표 ═══
@@ -39,8 +39,7 @@ pz 표준편차:0.0021 m
 최대 |pitch|:19.35 deg
 pz 평균:    0.506 m (목표: 0.5 m)
 pz 표준편차:0.0047 m
-  
-<img width="1028" height="497" alt="Image" src="https://github.com/user-attachments/assets/e4d137f5-a197-4149-a4a9-42331f75f779" />  
+<img width="1014" height="497" alt="Image" src="https://github.com/user-attachments/assets/8b57460c-0ec6-49e4-af6e-d9d359818d85" />  
 
 ### Bound
 #### 기본
@@ -50,8 +49,7 @@ pz 표준편차:0.0047 m
 최대 |pitch|:21.01 deg
 pz 평균:    0.520 m (목표: 0.5 m)
 pz 표준편차:0.0112 m
-  
-<img width="1024" height="497" alt="Image" src="https://github.com/user-attachments/assets/44f97525-ee43-4f1b-a25a-19973892d3d8" />  
+<img width="1037" height="496" alt="Image" src="https://github.com/user-attachments/assets/edc92cec-0acd-4d99-abfb-8cef29b5812b" />  
 
 #### 외란 시나리오
 ═══ 성능 지표 ═══
@@ -60,8 +58,7 @@ pz 표준편차:0.0112 m
 최대 |pitch|:20.95 deg
 pz 평균:    0.523 m (목표: 0.5 m)
 pz 표준편차:0.0157 m
-  
-<img width="1017" height="497" alt="Image" src="https://github.com/user-attachments/assets/2b194140-65b3-4852-abaa-5395ba986a4a" />  
+<img width="1025" height="501" alt="Image" src="https://github.com/user-attachments/assets/68aba517-12c3-4276-b47f-3066c87e532a" />  
 
 ## Demo
-![Image](https://github.com/user-attachments/assets/5bcdf084-9343-477e-a5bf-486f5024cb87)
+![Image](https://github.com/user-attachments/assets/93f825d0-7a57-4707-b563-272bb0a33c21)
