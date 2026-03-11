@@ -49,6 +49,7 @@ X_log(:, 1)  = x;
 CMD_log      = zeros(3,  N_steps);
 Contact_log  = zeros(4,  N_steps);
 Force_log    = zeros(12, N_steps);
+FootPos_log  = zeros(3, 4, N_steps); % 발 위치 로그: 3 x 4 x N_steps (world frame)
 t_log        = (0:N_steps-1) * dt_mpc;
 
 %  6. 메인 제어 루프────────────────────────────────────
@@ -68,29 +69,40 @@ for step = 1:N_steps
     % 6-3. 발 위치 계획 (논문 Eq.33) ───────────────────
     [r_feet, p_des] = plan_foot_positions(x, cmd_vel, contact_seq, params); % r_feet는 로봇의 중심(COM)으로 부터 각 발의 상대 위치, p_des는 각 발의 목표 위치를 계산
 
-    % 6-4. 연속 dynamics → 이산화 ──────────────────────
-    psi = x(3);  % 현재 yaw
-    [Ac, Bc] = get_continuous_dynamics(psi, r_feet, params);
-    [Ad, Bd] = discretize_zoh(Ac, Bc, dt_mpc);
+    % 발 위치 로그 (world frame)
+    p_com = x(4:6);
+    FootPos_log(:,:,step) = p_com + r_feet;
 
-    % horizon 전체에 같은 Ad, Bd 사용 horizon 내에서 동역학 행렬을 일정하게 가정
-    Ad_list = repmat({Ad}, 1, k_horizon);
-    Bd_list = repmat({Bd}, 1, k_horizon);
+    % 6-4. 연속 dynamics → 이산화 ──────────────────────
+    % 각 horizon step의 예측 yaw로 Ac, Bc를 따로 계산
+    Ad_list = cell(1, k_horizon);
+    Bd_list = cell(1, k_horizon);
+    psi_k = x(3);  % 현재 yaw에서 시작
+    for k = 1:k_horizon
+        psi_k = psi_k + cmd_vel(3) * dt_mpc;
+        [Ac_k, Bc_k] = get_continuous_dynamics(psi_k, r_feet, params);
+        [Ad_k, Bd_k] = discretize_zoh(Ac_k, Bc_k, dt_mpc);
+        Ad_list{k} = Ad_k;
+        Bd_list{k} = Bd_k;
+    end
+    % 상태 업데이트용 Ad, Bd는 현재 yaw 기준으로 별도 계산
+    [Ac, Bc] = get_continuous_dynamics(x(3), r_feet, params);
+    [Ad, Bd] = discretize_zoh(Ac, Bc, dt_mpc);
 
     % 6-5. 참조 궤적 생성 ──────────────────────────────
     x_ref = generate_reference_trajectory(x, cmd_vel, k_horizon, dt_mpc);
 
     % 6-6. QP 구성 및 풀기 ─────────────────────────────
-    [H, g_vec, C_ineq, lb, ub] = build_qp(Ad_list, Bd_list, ...
+    [H, g_vec, C_ineq, lb, ub, ub_var] = build_qp(Ad_list, Bd_list, ...
         x, x_ref, contact_seq, Q_weights, alpha, params, k_horizon);
 
-    % quadprog: min 0.5*x'Hx + g'x  s.t. C*x<=ub, lb<=x
+    % quadprog: min 0.5*x'Hx + g'x  s.t. C*x<=ub, lb<=x<=ub_var
     opts = optimoptions('quadprog', 'Display', 'off', ...
                         'Algorithm', 'interior-point-convex');
 
     [U_opt, ~, flag] = quadprog(sparse(H), g_vec, ...
                                 sparse(C_ineq), ub, ...
-                                [], [], lb, [], [], opts);
+                                [], [], lb, ub_var, [], opts);
 
     if flag ~= 1
         fprintf('QP 실패 이전 입력 유지\n'); % 디버깅 및 안정성을 위함
@@ -199,16 +211,22 @@ fprintf('최대 |pitch|:%.2f deg\n', max(abs(rad2deg(X_log(2,:)))));
 fprintf('pz 평균:    %.3f m (목표: 0.5 m)\n', mean(X_log(6,2:end)));
 fprintf('pz 표준편차:%.4f m\n', std(X_log(6,2:end)));
 
+% 3D 시각화 호출
+try
+    visualize_simulation(X_log, FootPos_log, Force_log, Contact_log, t_log, params);
+catch ME
+    warning('visualize_simulation 호출 중 오류: %s', ME.message);
+end
 % 함수: 속도 명령 스케줄 ────────────────────────────────────
 function cmd = get_cmd_vel(t)
 % 시간에 따른 명령 속도 [vx; vy; yaw_rate]
     if t < 1.0
         cmd = [0.0; 0.0; 0.0];       % 정지
-    elseif t < 4.0
+    elseif t < 2.0
         cmd = [0.5; 0.0; 0.0];       % 전진 0.5 m/s
-    elseif t < 5.0
-        cmd = [0.5; 0.0; 0.5];       % 전진 + 좌회전
+    elseif t < 4.0
+        cmd = [1.0; 0.0; 0.0];       % 전진 1.0 m/s
     else
-        cmd = [0.0; 0.0; 0.0];       % 정지
+        cmd = [1.0; 0.0; 0.0];       % 정지
     end
 end
